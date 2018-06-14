@@ -2,29 +2,29 @@
 let nonce=0
 
 
-echo "deploying blake2b contract"
+echo "deploying ecadd caller contract"
 
-# deploy blake2b contract
-./generate_init_wasm.sh blake2b.wasm
-#./sendTx.sh $nonce
+# deploy ecadd contract
+./generate_init_wasm.sh call-ecadd.wasm
+
 node txn.js --data=txn-wasm.wasm  --nonce $nonce
 
-# deploy invocation contract: contractwhich calls blake2b contract
 let nonce=$nonce+1 
-
-exit -1
 
 sleep 15s
 
-echo "deploying contract that calls blake2b contract"
+echo "calling contract...."
 
-./generate_call_wasm.sh
-node txn.js --data=txn-wasm.wasm --nonce $nonce
-#./sendTx.sh $nonce
+node txn.js --data=add.dat --nonce $nonce --to 0x4cc38c3be1f9ab9436724e53d925d7fe896a2f23
 
 sleep 15s
 
-echo "invoking deployed contract"
+echo "getting result..."
 
-let nonce=$nonce+1 
-./callContract.sh $nonce
+echo "expected storage: "
+echo "0xd3cf876dc108c2d3a81c8716a91678d9851518685b04859b021a132ee7440603"
+echo "--"
+echo "storage:"
+./getStorage.sh 0x4cc38c3be1f9ab9436724e53d925d7fe896a2f23
+
+

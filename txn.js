@@ -15,7 +15,7 @@ if (data) {
 const txParams = {
   nonce: '0x'+nonce,
   gasPrice: '0x174876e800', 
-  gasLimit: '0x70000000',
+  gasLimit: '0x100000',
   to: to,
   value: '0xa', 
   data: data,
@@ -24,6 +24,7 @@ const txParams = {
 
 let tx = new EthereumTx(txParams)
 tx.sign(privateKey)
+
 let serializedTx = tx.serialize()
 serializedTx = serializedTx.toString('hex')
 
